@@ -1,0 +1,21 @@
+{# qr_code.html.twig #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QR Code for 2FA</title>
+</head>
+<body>
+    <h1>Scan the QR Code</h1>
+    <img src="{{ qrCodeUrl }}" alt="QR Code">
+    
+    <p>Your recovery code is: <strong>{{ recoveryCode }}</strong></p>
+    <p>Please save this code in a secure place.</p>
+
+    <a href="{{ path('app_2fa_activate', {'userId': userId}) }}">
+        <button>Continue</button>
+    </a>
+
+
+</body>
+</html>

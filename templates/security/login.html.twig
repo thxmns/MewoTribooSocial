@@ -1,392 +1,43 @@
-{# ============================================================================= 
-    📁 login.html.twig ▶ [ LOGIN PAGE ]
-
-    - 
-     
-    💻 Triboo © 2024 
-    👪 Julian MAYER - Alexis CAILLOTO - BREGLER Thomas
-
-   ============================================================================= #}
-
-
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+
+    {# Afficher les erreurs #}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <form method="post">
+        <label for="inputEmail">Email:</label>
+        <input type="email" name="email" value="{{ last_username }}" required autofocus>
         
-        <!-- 🔖 FAVICON 🔖 -->
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <label for="inputPassword">Password:</label>
+        <input type="password" name="password" required>
+
+        {# Nouveau champ pour le code 2FA #}
+        <label for="input2faCode">2FA Code (Google Authenticator):</label>
+        <input type="text" name="_2fa_code" required>
         
-        <!-- 🔖 LINK 🔖 -->
-
-        {# Google Fonts #}
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        
-        {# Fonts #}
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
-
-        {# Icons - Font Awesome #}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-        {# Icons - Boxicons #}
-        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-
-        {# Bootstrap #}
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-        <!-- 🔖 CSS 🔖 -->
-        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/slick-theme.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('assets/js/slick-1.8.1/slick/slick.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('assets/css/scroll-bar.css') }}">
-       
-
-        <!-- 🔖 TITLE 🔖 -->
-        <title>{% block title %}PIRADMIN | LOGIN{% endblock %}</title>
-    </head>
-
-    <body>
-
-
-
-
-
-
-
-<div class="container">
-  <main class="signup-container">
-    <h1 class="heading-primary">Log in<span class="span-blue">.</span></h1>
-    {% if app.user %}
-    <p class="text-mute" style="font-weight:700;">You are already logged in as {{ app.user.userIdentifier }} ! You can logout :)</p>
-          {% else %}
-              <p class="text-mute">Welcome to the PIRADMIN ! Log in to manage your site :)</p>
-
-                 {% endif %}
-
-
-    <div class="login-wrapper">
-      
-      <div class="line-breaker">
-        <span class="line"></span>
-      </div>
-    </div>
-
-    <form method="post" class="signup-form">
-      <label class="inp">
-     
-
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="input-text" autocomplete="email" required autofocus>
-
-       
-        <span class="label">Email</span>
-        <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
-      </label>
-      <label class="inp">
-          <input type="password" name="password" id="password" class="input-text" autocomplete="current-password" placeholder="&nbsp;" required>
-
-        <span class="label">Password</span>
-
-        <span  type="password" name="password" id="inputPassword"  autocomplete="current-password" required class="input-icon input-icon-password" data-password><i class="fa-solid fa-eye"></i></span>
-      </label>
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-        {% if app.user %}
-                <button style="text-decoration:none;color:white" class="btn btn-login"><a style="text-decoration:none;color:white" href="{{ path('app_logout') }}">Logout</a></button>
-
-      {% else %}
-      <label>
-            <input type="checkbox" name="_remember_me"> Remember me
-        </label>
-      <button class="btn btn-login">Login</button>
-
-       {% endif %}
-
+        <button type="submit">Login</button>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
     </form>
-    <p class="text-mute" style="font-size: 10px;">Piranha et petits poissons rouges © 2024</p>
-  </main>
-  <div class="welcome-container" >
-   
 
-  </div>
-</div>
+    <p>You forgot your password?</p>
+    <a href="{{ path('app_forgot_password') }}">
+        <button type="button">Send me an email</button>
+    </a>
 
-<style>
+    <p>You forgot your A2F code?</p>
+    <a href="{{ path('app_2fa_recovery') }}">
+        <button type="button">Use my recovery code</button>
+    </a>
 
-html {
-  font-size: 62.5%;
-}
-
-body {
-  font-family: "Poppins", sans-serif;
-  line-height: 1.6;
-  color: #1a1a1a;
-  font-size: 1.6rem;
-  overflow-x: hidden;
-}
-a {
-  color: #2196f3;
-  text-decoration: none;
-}
-
-.container {
-  display: grid;
-  grid-template-rows: minmax(min-content, 100vh);
-  grid-template-columns: repeat(2, 50vw);
-}
-.heading-secondary {
-  font-size: 3rem;
-}
-.heading-primary {
-  font-size: 5rem;
-    font-weight: 700;
-}
-.span-blue {
-  color: #FA0016;
-}
-.signup-container,
-.signup-form {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-.signup-container {
-  width: 100vw;
-  padding: 10rem 10rem;
-  align-items: flex-start;
-  justify-content: flex-start;
-
-  grid-column: 1 / 2;
-  grid-row: 1;
-}
-.signup-form {
-  max-width: 45rem;
-  width: 100%;
-}
-.text-mute {
-  color: #aaa;
-  
-}
-
-.input-text {
-  font-family: inherit;
-  font-size: 1.8rem;
-  padding: 3rem 5rem 1rem 2rem;
-  border: none;
-  border-radius: 2rem;
-  background: #F2F0EF!important;
-  width: 100%;
-}
-.input-text {
-  outline-color: #FA0016;
-}
-
-.btn {
-  padding: 2rem 3rem;
-  border: none;
-  background: #FA0016;
-  color: #fff!important;
-  border-radius: 1rem;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: 500;
-  font-size: inherit;
-  transition: all 0.3s;
-}
-.btn-login {
-  align-self: flex-end;
-  width: 100%;
-  box-shadow: 0 5px 5px #00000020;
-}
-.btn-login:active {
-  box-shadow: none;
-}
-.btn-login:hover {
-  background: #852830;
-}
-.inp {
-  position: relative;
-}
-.label {
-  pointer-events: none;
-
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-  color: #00000070;
-  font-weight: 500;
-  font-size: 1.8rem;
-
-  transition: all 0.2s;
-  transform-origin: left;
-}
-.input-text:not(:placeholder-shown) + .label,
-.input-text + .label {
-  top: 0.7rem;
-  transform: scale(0.75);
-}
-.input-text + .label {
-  color: #FA0016;
-}
-
-
-.input-icon {
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
-  font-size: 2rem;
-  color: #0000004f;
-}
-.input-icon-password {
-  cursor: pointer;
-}
-
-.btn-google {
-  color: #222;
-  background: #fff;
-  border: solid 1px #F2F0EF;
-  padding: 1.5rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  box-shadow: 0 1px 2px #00000020;
-}
-
-.btn-google img {
-  width: 3rem;
-  margin-right: 1rem;
-}
-
-.login-wrapper {
-  max-width: 45rem;
-  width: 100%;
-}
-.line-breaker .line {
-  width: 50%;
-  height: 1px;
-  background: #F2F0EF;
-}
-.line-breaker {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #ccc;
-
-  margin: 3rem 0;
-}
-.line-breaker span:nth-child(2) {
-  margin: 0 2rem;
-}
-
-.welcome-container {
-  background-image:url('../public/assets/img/cms/HomePage_Piranha_1920x1080.jpg');
-  background-size: cover;
-    background-position: center;
-  grid-column: 2 / 3;
-  grid-row: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 10rem;
-}
-.lg {
-  font-size: 6rem;
-}
-.welcome-container img {
-  width: 100%;
-}
-
-@media only screen and (max-width: 700px) {
-  html {
-    font-size: 54.5%;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .signup-container {
-    padding: 5rem;
-  }
-}
-@media only screen and (max-width: 400px) {
-  html {
-    font-size: 48.5%;
-  }
-
-  .input-text:not(:placeholder-shown) + .label,
-  .input-text + .label {
-    top: 0.6rem;
-    transform: scale(0.75);
-  }
-  .label {
-    font-size: 1.9rem;
-  }
-}
-
-@media only screen and (max-width: 1200px) {
-  .signup-container {
-    grid-column: 1 / 3;
-    grid-row: 1/3;
-  }
-  .welcome-container {
-    display: none;
-  }
-}
-
-
-
-</style>
-
-<script>
-const eyeClick = document.querySelector("[data-password]");
-const password_elem = document.getElementById("password");
-
-eyeClick.onclick = () => {
-  const icon = eyeClick.children[0];
-  icon.classList.toggle("fa-eye-slash");
-  if (password_elem.type === "password") {
-    password_elem.type = "text";
-  } else if (password_elem.type === "text") {
-    password_elem.type = "password";
-  }
-};
-
-</script>
-
-
-
-
-
-
-        <!-- Scripts -->
-        <script src="{{ asset('assets/js/scripts/admin.js') }}"></script>
-
-        {# <script src="{{ asset('assets/js/script.js') }}"></script> #}
-
-        <!-- ***************************************************************** --> 
-
-        <!-- Jquery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!-- Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <!-- Bootstrap -->
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
-
-
-
-    </body>
+</body>
 </html>
-
-
-
-
-
-
-

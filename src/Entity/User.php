@@ -33,6 +33,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $googleAuthenticatorSecret = null;
+
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $recoveryCode = null; 
+
+    #[ORM\Column(type: "boolean")]
+    private bool $is2faEnabled = false;
+    
+
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $resetToken = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -95,6 +108,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getGoogleAuthenticatorSecret(): ?string
+    {
+        return $this->googleAuthenticatorSecret;
+    }
+
+    public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): self
+    {
+        $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
+
+        return $this;
+    }
+
+    public function getRecoveryCode(): ?string
+    {
+        return $this->recoveryCode;
+    }
+  
+    public function setRecoveryCode(?string $recoveryCode): self
+    {
+        $this->recoveryCode = $recoveryCode;
+  
+        return $this;
+    }
+
+    public function is2faEnabled(): bool
+    {
+        return $this->is2faEnabled;
+    }
+
+    public function setIs2faEnabled(bool $is2faEnabled): self
+    {
+        $this->is2faEnabled = $is2faEnabled;
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }

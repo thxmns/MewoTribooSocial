@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2FA Code</title>
+</head>
+<body>
+    <h1>Enter your 2FA Code</h1>
+
+    {% if error %}
+        <div style="color: red;">{{ error }}</div>
+    {% endif %}
+
+    <form method="post">
+        <label for="input2faCode">2FA Code:</label>
+        <input type="text" name="_2fa_code" required autofocus>
+        
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

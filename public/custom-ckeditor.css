@@ -1,0 +1,11 @@
+.cke_panel_listItem.menu-title {
+    font-weight: 600;
+    line-height: 32px;
+    font-size: 16px;
+}
+
+.cke_panel_listItem.menu-text {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+}
